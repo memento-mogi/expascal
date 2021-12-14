@@ -36,7 +36,6 @@ class Pascal:
         ax.imshow(self.containts, cmap="Blues")
         fig.savefig(filename)
         subprocess.Popen("eog "+filename, shell=True).decode("utf-8")
-
         return
 
     def count(self):
