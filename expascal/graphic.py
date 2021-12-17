@@ -32,7 +32,7 @@ def create():
     pascal = objective.Pascal(devide, size)
     pascal_list.append(pascal)
     index = index + 1
-    pascal.containts = pascal.set_body(pascal.set_axis())
+    pascal.set_body(pascal.set_axis())
     print(z_o_flag.get())
     if z_o_flag.get():
         pascal.toZeroone()

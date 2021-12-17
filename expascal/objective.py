@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import subprocess
@@ -24,33 +25,35 @@ class Pascal:
         return(axis_1 + axis_2)
 
 
-    def set_body(self, triangle) -> np.matrix:
+    def set_body(self, triangle):
         for row in range(1, self.size):
             for column in range(1, self.size):
                 thenum = (triangle[row-1, column] + triangle[row, column-1]) % self.devide
                 triangle[row, column] = thenum
         triangle[0,0] = 1
-        return triangle
+        self.contents = triangle
+        return
 
     def create_image(self):
-        filename = "/home/maetaka-2020248/projects_python/projects_expascal/img/" + str(self.devide)+"-"+str(self.size)+"img.png"
+        filename = os.environ.get("EXPASCAL_IMG") + str(self.devide)+"-"+str(self.size)+"img.png"
         fig = plt.figure(dpi=1024)
         ax = fig.add_subplot(1,1,1)
-        ax.imshow(self.containts, cmap="Blues")
+        ax.imshow(self.contents, cmap="Blues")
         fig.savefig(filename)
         subprocess.Popen("eog "+filename, shell=True)
         return
 
     def count(self):
-        isZero = np.count_nonzero(self.containts==0)
+        isZero = np.count_nonzero(self.contents==0)
         print(isZero,"/",self.size**2)
         return
 
     def toZeroone(self):
-        self.containts = np.where(self.containts==0, 0, 1)
+        self.contents = np.where(self.contents==0, 0, 1)
 
 if __name__ == "__main__":
     pascal1 = Pascal(4, 34)
-    pascal1.containts = pascal1.set_body(pascal1.set_axis())
-    print(pascal1.containts)
-    pascal1.count()
+    pascal1.set_body(pascal1.set_axis())
+    print(pascal1.contents)
+    pascal1.create_image()
+
