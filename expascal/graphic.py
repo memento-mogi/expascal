@@ -33,7 +33,6 @@ def create():
     pascal_list.append(pascal)
     index = index + 1
     pascal.set_body(pascal.set_axis())
-    print(z_o_flag.get())
     if z_o_flag.get():
         pascal.toZeroone()
     table.insert("","end",values=(index, size, devide, z_o_flag.get()))

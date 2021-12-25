@@ -36,11 +36,8 @@ class Pascal:
 
     def create_image(self):
         filename = os.environ.get("EXPASCAL_IMG") + str(self.devide)+"-"+str(self.size)+"img.png"
-        fig = plt.figure(dpi=1024)
-        ax = fig.add_subplot(1,1,1)
-        ax.imshow(self.contents, cmap="Blues")
-        fig.savefig(filename)
-        subprocess.Popen("eog "+filename, shell=True)
+        plt.imshow(self.contents, cmap="Blues")
+        plt.show()
         return
 
     def count(self):
