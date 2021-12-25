@@ -1,7 +1,6 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
-import subprocess
 import pickle
 
 np.set_printoptions(threshold=np.inf)
@@ -55,11 +54,8 @@ class Pascal:
 
     def create_image(self):
         filename = f"{imgpath}{str(self.devide)}-{str(self.size)}img.png"
-        fig = plt.figure(dpi=1024)
-        ax = fig.add_subplot(1,1,1)
-        ax.imshow(self.contents, cmap="Blues")
-        fig.savefig(filename)
-        subprocess.Popen("eog "+filename, shell=True)
+        plt.imshow(self.contents, cmap="Blues")
+        plt.show()
         return
 
     def count(self):
