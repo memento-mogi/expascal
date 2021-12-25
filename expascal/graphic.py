@@ -16,7 +16,7 @@ def list_init():
     pascal_list = []
     for tri_bin in glob.glob("../tri_bin/*"):
         args = re.findall(r"\d+", tri_bin)
-        pascal_list.append(args)
+        pascal_list.append(objective.Pascal(args[0], args[1], args[2]))
     print(pascal_list)
 
 def create():
@@ -24,22 +24,17 @@ def create():
     global z_o_flag
     devide = int(devide_inbox.get())
     size = int(size_inbox.get())
-
-    pascal = objective.Pascal(devide, size)
+    pascal = objective.Pascal(devide, size, int(z_o_flag.get()))
     pascal_list.append(pascal)
     index = index + 1
 
-    if not pascal.exist_check(TYPENO_BIN):
-        pascal.set_body(pascal.set_axis())
-        print("new create")
-
-    if z_o_flag.get():
-        pascal.toZeroone()
+    pascal.create_tri()
 
     table.insert("","end",values=(index, size, devide, z_o_flag.get()))
     return
 
 def save():
+    print(pascal_list)
     num = int(no1_inbox.get())
     pascal_list[num].create_image()
     return
