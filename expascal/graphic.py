@@ -3,21 +3,21 @@ import glob
 import re
 import tkinter as tk
 from tkinter import ttk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 import objective
 import compare as comp
 
 pascal_list = []
-index = -1
-
-TYPENO_BIN = 0
-TYPENO_IMG = 1
+index = 0
 
 def list_init():
-    pascal_list = []
+    global index
     for tri_bin in glob.glob("../tri_bin/*"):
-        args = re.findall(r"\d+", tri_bin)
+        read_num = re.findall(r"\d+", tri_bin)
+        args = [int(i) for i in read_num]
         pascal_list.append(objective.Pascal(args[0], args[1], args[2]))
-    print(pascal_list)
+        table.insert("","end",values=(index, args[0], args[1], bool(args[2])))
+        index += 1
 
 def create():
     global index
@@ -26,29 +26,31 @@ def create():
     size = int(size_inbox.get())
     pascal = objective.Pascal(devide, size, int(z_o_flag.get()))
     pascal_list.append(pascal)
-    index = index + 1
 
     pascal.create_tri()
 
-    table.insert("","end",values=(index, size, devide, z_o_flag.get()))
+    table.insert("","end",values=(index, devide, size, z_o_flag.get()))
+    index += 1
     return
 
-def save():
-    print(pascal_list)
+def view():
     num = int(no1_inbox.get())
-    pascal_list[num].create_image()
+    fig = pascal_list[num].view_image()
+    canvas = FigureCanvasTkAgg(fig, root)
+    canvas.get_tk_widget().place(x=350, y=200)
+    toolbar = NavigationToolbar2Tk(canvas, toolbarFrame)
     return
 
 def count():
     num = int(no1_inbox.get())
-    pascal_list[num].count()
+    print(pascal_list[num].count())
     return
 
 def compare():
     num_a = int(no1_inbox.get())
     num_b = int(no2_inbox.get())
     if pascal_list[num_a].size == pascal_list[num_b].size:
-        print(comp.comp(pascal_list[num_a], pascal_list[num_b]))
+        print(comp.comp(pascal_list[num_a].contents(), pascal_list[num_b].contents()))
     else:
         print("同じサイズで比較して下さい")
     return
@@ -85,22 +87,27 @@ no2_inbox.grid(row=1, column=3)
 
 # buttons
 ttk.Button(root, text="create", command=create).grid(row=2, column=1)
-ttk.Button(root, text="save", command=save).grid(row=2, column=2)
+ttk.Button(root, text="view", command=view).grid(row=2, column=2)
 ttk.Button(root, text="count", command=count).grid(row=2, column=3)
 ttk.Button(root, text="compare", command=compare).grid(row=2, column=4)
 
 # table
 table = ttk.Treeview(root)
-table["columns"] = (0,1,2,3)
-table.column(0,width=75)
-table.column(1,width=75)
-table.column(2,width=100)
-table.column(3,width=125)
-table.heading(0, text="No.")
-table.heading(1, text="size")
+table["columns"] = (1,2,3,4)
+table["show"] = "headings"
+table.column(1, width=70)
+table.column(2, width=70)
+table.column(3, width=70)
+table.column(4, width=70)
+table.heading(1, text="No.")
 table.heading(2, text="devide")
-table.heading(3, text="01")
-table.place(x=100, y=200)
+table.heading(3, text="size")
+table.heading(4, text="01")
+table.place(x=50, y=150)
+
+# plt toolbar
+toolbarFrame = tk.Frame(master=root)
+toolbarFrame.place(x=350+index*100, y=150)
 
 list_init()
 root.mainloop()
