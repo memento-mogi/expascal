@@ -1,22 +1,19 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
 import pickle
 
 np.set_printoptions(threshold=np.inf)
 imgpath = os.environ.get("EXPASCAL_IMG")
 binpath = os.environ.get("EXPASCAL_BIN")
 
-TYPENO_BIN = 0
-TYPENO_IMG = 1
-
 class Pascal:
     def __init__(self, devide, size, z_o_flag):
         self.devide: int = devide
         self.size: int = size
         self.z_o_flag: int = z_o_flag
-        self.paths_full: tuple = (f"{binpath}{self.devide}-{self.size}-{self.z_o_flag}tri.bin",
-                                  f"{imgpath}{self.devide}-{self.size}-{self.z_o_flag}tri.png")
+        self.path: str = f"{binpath}{self.devide}-{self.size}-{self.z_o_flag}tri.bin"
 
     def create_tri(self):
         def axis() -> np.matrix:
@@ -40,37 +37,35 @@ class Pascal:
             return triangle
 
         def save(triangle):
-            with open(f"{self.paths_full[TYPENO_BIN]}", mode="wb") as fi:
+            with open(self.path, mode="wb") as fi:
                 pickle.dump(triangle, fi)
             return
 
-        if not self.exist_check(TYPENO_BIN):
+        if not os.path.exists(self.path):
             new_triangle = body(axis())
             save(new_triangle)
 
-    def exist_check(self, file_type) -> bool:
-        return os.path.exists(f"{self.paths_full[file_type]}")
-
     def contents(self) -> np.matrix:
-        print(f"{self.paths_full[TYPENO_BIN]}")
-        with open(f"{self.paths_full[TYPENO_BIN]}", mode="rb") as fi:
+        with open(self.path, mode="rb") as fi:
             triangle = pickle.load(fi)
         return triangle
 
-    def create_image(self):
-        plt.imshow(self.contents(), cmap="Blues")
-        plt.show()
-        return
+    def view_image(self):
+        fig = Figure()
+        ax = fig.add_subplot(111)
+        ax.imshow(self.contents(), cmap="Blues")
+        return fig
 
     def count(self):
-        isZero = np.count_nonzero(self.contents==0)
-        print(isZero, "/", self.size**2)
-        return
+        notzero_num = np.count_nonzero(self.contents())
+        all_num = self.size**2
+        return f"{all_num - notzero_num}/{all_num}"
 
 
 if __name__ == "__main__":
     pascal1 = Pascal(7, 34, 1)
     pascal1.create_tri()
     print(pascal1.contents())
-    pascal1.create_image()
-    print(pascal1.exist_check(TYPENO_BIN))
+    pascal1.view_image()
+    plt.show()
+    print(pascal1.count())
