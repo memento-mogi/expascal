@@ -26,10 +26,10 @@ class MyApp(tk.Frame):
 
     def set_widgets(self):
         # styles
-        label_s = ttk.Style().configure("TLabel", foreground="black",
-                                        background="white", font=("",15))
-        button_s = ttk.Style().configure("TButton", foreground="red", 
-                                        background="gray", font=("",25))
+        label_s = ttk.Style().configure("TLabel", foreground="#111111",
+                                        background="#dcdcdc", font=("",15))
+        button_s = ttk.Style().configure("TButton", foreground="#003200", 
+                                        background="#f0fff0", font=("",25))
 
         # Label
         self.label_no1 = ttk.Label(self)
