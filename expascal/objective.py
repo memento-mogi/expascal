@@ -3,17 +3,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 import pickle
+import subprocess
 
 np.set_printoptions(threshold=np.inf)
-imgpath = os.environ.get("EXPASCAL_IMG")
-binpath = os.environ.get("EXPASCAL_BIN")
+bin_dir = os.environ.get("EXPASCAL_BIN")
+img_dir = os.environ.get("EXPASCAL_IMG")
 
 class Pascal:
     def __init__(self, devide, size, z_o_flag):
         self.devide: int = devide
         self.size: int = size
         self.z_o_flag: int = z_o_flag
-        self.path: str = f"{binpath}{self.devide}-{self.size}-{self.z_o_flag}tri.bin"
+        self.binpath: str = f"{bin_dir}{self.devide}-{self.size}-{self.z_o_flag}tri.bin"
+        self.imgpath: str = f"{img_dir}{self.devide}-{self.size}-{self.z_o_flag}tri.png"
+        self.create_tri()
 
     def create_tri(self):
         def axis() -> np.matrix:
@@ -37,35 +40,46 @@ class Pascal:
             return triangle
 
         def save(triangle):
-            with open(self.path, mode="wb") as fi:
+            with open(self.binpath, mode="wb") as fi:
                 pickle.dump(triangle, fi)
+            print("new saved")
             return
 
-        if not os.path.exists(self.path):
+        if not os.path.exists(self.binpath):
             new_triangle = body(axis())
+            if self.z_o_flag:
+                new_triangle = np.where(new_triangle==0, 0, 1)
+                print(new_triangle)
             save(new_triangle)
 
-    def contents(self) -> np.matrix:
-        with open(self.path, mode="rb") as fi:
+    def get_contents(self) -> np.matrix:
+        with open(self.binpath, mode="rb") as fi:
             triangle = pickle.load(fi)
         return triangle
 
-    def view_image(self):
+    def create_fig(self):
         fig = Figure()
         ax = fig.add_subplot(111)
-        ax.imshow(self.contents(), cmap="Blues")
+        ax.imshow(self.get_contents(), cmap="Blues")
         return fig
 
-    def count(self):
-        notzero_num = np.count_nonzero(self.contents())
+    def view_img(self):
+        fig = plt.figure(dpi=1024)
+        ax = fig.add_subplot(111)
+        ax.imshow(self.get_contents(), cmap="Blues")
+        fig.savefig(self.imgpath)
+        subprocess.Popen(f"eog {self.imgpath}", shell=True)
+
+
+    def count_zeros(self):
+        notzero_num = np.count_nonzero(self.get_contents())
         all_num = self.size**2
         return f"{all_num - notzero_num}/{all_num}"
 
 
 if __name__ == "__main__":
-    pascal1 = Pascal(7, 34, 1)
-    pascal1.create_tri()
-    print(pascal1.contents())
-    pascal1.view_image()
-    plt.show()
-    print(pascal1.count())
+    pascal1 = Pascal(3, 10, 1)
+#    print(pascal1.contents())
+#    pascal1.create_fig()
+#    plt.show()
+    pascal1.view_img()
