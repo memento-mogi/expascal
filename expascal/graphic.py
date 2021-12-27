@@ -111,7 +111,6 @@ class MyApp(tk.Frame):
 
     def list_init(self):
         for tri_bin in glob.glob("../tri_bin/*"):
-            print(tri_bin)
             read_num = re.findall(r"\d+", tri_bin)
             args = [int(i) for i in read_num]
             self.pascal_list.append(objective.Pascal(args[0], args[1], args[2]))

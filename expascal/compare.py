@@ -7,4 +7,4 @@ def comp(pascal1, pascal2):
     return comp
 
 if __name__ == "__main__":
-    print(comp(objective.Pascal(4,100,0), objective.Pascal(4,100,0)))
+    print(comp(objective.Pascal(5,1000,0), objective.Pascal(10,1000,0)))

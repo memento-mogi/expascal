@@ -49,7 +49,6 @@ class Pascal:
             new_triangle = body(axis())
             if self.z_o_flag:
                 new_triangle = np.where(new_triangle==0, 0, 1)
-                print(new_triangle)
             save(new_triangle)
 
     def get_contents(self) -> np.matrix:
