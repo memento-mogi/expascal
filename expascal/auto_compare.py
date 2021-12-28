@@ -5,19 +5,20 @@ import matplotlib.pyplot as plt
 import numpy as np
 import objective
 import compare
+import prime
 
 SIZE = int(sys.argv[1])
 PASCAL_SIZE = int(sys.argv[2])
 PERCENT =  int(sys.argv[3])
 compare_l = np.zeros((SIZE+1, SIZE+1))
-pascal_l = [0,1]
+pascal_l = []
 
-for make_i in range(2, SIZE+1):
+for make_i in prime.generate(SIZE+1):
     pascal = objective.Pascal(make_i, PASCAL_SIZE)
     pascal.set_body(pascal.set_axis())
     pascal_l.append(pascal)
 
-for i in range(2,SIZE+1):
+for i in range(SIZE+1):
     for j in range(i+1,SIZE+1):
         compare_l[i,j] = compare.comp(pascal_l[i], pascal_l[j])
 
