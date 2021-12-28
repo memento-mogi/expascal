@@ -53,7 +53,7 @@ def compare():
     num_a = int(no1_inbox.get())
     num_b = int(no2_inbox.get())
     if pascal_list[num_a].size == pascal_list[num_b].size:
-        comp.comp(pascal_list[num_a], pascal_list[num_b])
+        print(comp.comp(pascal_list[num_a], pascal_list[num_b]))
     else:
         print("同じサイズで比較して下さい")
     return
