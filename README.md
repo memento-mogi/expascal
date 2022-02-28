@@ -1,5 +1,5 @@
 # expascal
-s5-2
+f-パスカルの三角形分析ツール
 
 ```bash
 export EXPASCAL_IMG="/path/to/image/folder"
