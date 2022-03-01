@@ -1,12 +1,10 @@
 import glob
 import os
 import re
-import subprocess
 import tkinter as tk
 from tkinter import ttk
 
 import matplotlib
-import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 
