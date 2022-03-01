@@ -1,3 +1,5 @@
+# mod n と mod 2n のf-パスカルの三角形を比較し、一致率を折れ線グラフに
+
 import os
 import subprocess
 import sys

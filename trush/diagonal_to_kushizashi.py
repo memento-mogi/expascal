@@ -1,3 +1,5 @@
+"""Gengerate KUSHIZASHI from disgonal line"""
+
 import sympy as sp
 import numpy as np
 import pprint
@@ -16,24 +18,23 @@ a9 = sp.Symbol("a9")
 a10 = sp.Symbol("a10")
 m = sp.Symbol("m")
 
-#a = []
-koho = [0, 0, 0, a1, a2, a1, 0, 0, 0, -a1, -a2, -a1]
-shuki = len(koho)
 
-#print(a)
+diagonal = [0, 0, 0, a1, a2, a1, 0, 0, 0, -a1, -a2, -a1]
+period = len(diagonal)
+
+# Create triangle
 tri = np.ones((SIZE, SIZE)).tolist()
 
 for i in range(SIZE):
     for j in range(SIZE-1-i):
         tri[i][j] = 0
-    tri[i][SIZE-1-i] = koho[i%shuki]
+    tri[i][SIZE-1-i] = diagonal[i%period]
 
 for i in range(1, SIZE):
     for j in range(SIZE-i,SIZE):
         tri[i][j] = tri[i-1][j] + tri[i][j-1]
 
-print("do")
-
+# Replace symbols to 0 or 1
 for i in range(0, SIZE):
     for j in range(SIZE-1-i,SIZE):
         num = tri[i][j]
