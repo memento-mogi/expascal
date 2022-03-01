@@ -1,6 +1,7 @@
 # expascal
 f-パスカルの三角形分析ツール
 
+## Setting
 bashであれば、
 ```bash
 cd expascal
