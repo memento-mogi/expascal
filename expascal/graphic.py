@@ -106,7 +106,7 @@ class MyApp(tk.Frame):
         subplot_devide = ((1,1), (1,2), (2,2), (2,2), (2,3), (2,3))
         self.plt_frame = tk.Frame(self)
         self.plt_frame.grid(row=0, column=2, rowspan=11)
-        fig = matplotlib.figure.Figure(figsize=(12.5, 7.7))
+        fig = matplotlib.figure.Figure(figsize=(12.5, 7.7), dpi=100)
         fig.subplots_adjust(left=0, right=1, bottom=0.05, top=0.95, wspace=0, hspace=0.1)
         self.axes = []
         for i in range(1, num+1):
