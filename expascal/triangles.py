@@ -9,8 +9,8 @@ from matplotlib.figure import Figure
 np.set_printoptions(threshold=np.inf)
 
 # get & set path 
-bin_dir = os.environ.get("EXPASCAL_BIN", "./tri_bin")
-img_dir = os.environ.get("EXPASCAL_IMG", "./tri_img")
+bin_dir = os.environ.get("EXPASCAL_BIN", "./tri_bin/")
+img_dir = os.environ.get("EXPASCAL_IMG", "./tri_img/")
 
 COMP_DIFFER = 0
 COMP_SAME = 1
